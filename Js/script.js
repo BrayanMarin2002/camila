@@ -1,7 +1,4 @@
-//© Zero - Código libre no comercial
 
-
-// Cargar el SVG y animar los corazones
 fetch('Img/treelove.svg')
   .then(res => res.text())
   .then(svgText => {
@@ -10,7 +7,7 @@ fetch('Img/treelove.svg')
     const svg = container.querySelector('svg');
     if (!svg) return;
 
-    // Animación de "dibujo" para todos los paths
+    
     const allPaths = Array.from(svg.querySelectorAll('path'));
     allPaths.forEach(path => {
       path.style.stroke = '#222';
@@ -22,7 +19,7 @@ fetch('Img/treelove.svg')
       path.style.transition = 'none';
     });
 
-    // Forzar reflow y luego animar
+    
     setTimeout(() => {
       allPaths.forEach((path, i) => {
         path.style.transition = `stroke-dashoffset 1.2s cubic-bezier(.77,0,.18,1) ${i * 0.08}s, fill-opacity 0.5s ${0.9 + i * 0.08}s`;
@@ -34,24 +31,24 @@ fetch('Img/treelove.svg')
         }, 1200 + i * 80);
       });
 
-      // Después de la animación de dibujo, mueve y agranda el SVG
+     
       const totalDuration = 1200 + (allPaths.length - 1) * 80 + 500;
       setTimeout(() => {
         svg.classList.add('move-and-scale');
-        // Mostrar texto con efecto typing
+        
         setTimeout(() => {
           showDedicationText();
-          // Mostrar petalos flotando
+          
           startFloatingObjects();
-          // Mostrar cuenta regresiva
+          
           showCountdown();
-          // Iniciar música de fondo
+          
           playBackgroundMusic();
-        }, 1200); //Tiempo para agrandar el SVG
+        }, 1200); 
       }, totalDuration);
     }, 50);
 
-    // Selecciona los corazones (formas rojas)
+   
     const heartPaths = allPaths.filter(el => {
       const style = el.getAttribute('style') || '';
       return style.includes('#FC6F58') || style.includes('#C1321F');
@@ -61,13 +58,13 @@ fetch('Img/treelove.svg')
     });
   });
 
-// Efecto máquina de escribir para el texto de dedicatoria (seguidores)
+
 function getURLParam(name) {
   const url = new URL(window.location.href);
   return url.searchParams.get(name);
 }
 
-function showDedicationText() { //seguidores
+function showDedicationText() {
   let text = getURLParam('text');
   if (!text) {
     text = `Hace un mes, te di muchas razones para amarte. Razones que crecen cada día, porque cada instante contigo me enseña una nueva forma de admirarte, de respetarte, de agradecerle a la vida por tenerte.
@@ -95,16 +92,16 @@ Te amo con el alma, y mi mayor deseo es seguir celebrando muchos meses más, has
       i++;
       setTimeout(type, text[i - 2] === '\n' ? 350 : 45);
     } else {
-      // Al terminar el typing, mostrar la firma animada
+      
       setTimeout(showSignature, 600);
     }
   }
   type();
 }
 
-// Firma manuscrita animada
+
 function showSignature() {
-  // Cambia para buscar la firma dentro del contenedor de dedicatoria
+  
   const dedication = document.getElementById('dedication-text');
   let signature = dedication.querySelector('#signature');
   if (!signature) {
@@ -114,20 +111,20 @@ function showSignature() {
     dedication.appendChild(signature);
   }
   let firma = getURLParam('firma');
-  signature.textContent = firma ? decodeURIComponent(firma) : "Con amor, B 💖";
+  signature.textContent = firma ? decodeURIComponent(firma) : "Con amor, BM 💖";
   signature.classList.add('visible');
 }
 
 
 
-// Controlador de objetos flotantes
+
 function startFloatingObjects() {
   const container = document.getElementById('floating-objects');
   let count = 0;
   function spawn() {
     let el = document.createElement('div');
     el.className = 'floating-petal';
-    // Posición inicial
+   
     el.style.left = `${Math.random() * 90 + 2}%`;
     el.style.top = `${100 + Math.random() * 10}%`;
     el.style.opacity = 0.7 + Math.random() * 0.3;
@@ -142,19 +139,19 @@ function startFloatingObjects() {
       el.style.opacity = 0.2;
     }, 30);
 
-    // Eliminar después de animar
+   
     setTimeout(() => {
       if (el.parentNode) el.parentNode.removeChild(el);
     }, duration + 2000);
 
-    // Generar más objetos
+  
     if (count++ < 32) setTimeout(spawn, 350 + Math.random() * 500);
     else setTimeout(spawn, 1200 + Math.random() * 1200);
   }
   spawn();
 }
 
-// Cuenta regresiva o fecha especial
+
 function showCountdown() {
   const container = document.getElementById('countdown');
   let startParam = getURLParam('start');
@@ -174,14 +171,14 @@ function showCountdown() {
 
     container.innerHTML =
       `Te llevo amando: <b>${days}</b> días<br>` +
-      `Nuestro aniversario: <b>${eventDays}d ${eventHours}h ${eventMinutes}m ${eventSeconds}s</b>`;
+      `Nuestro primer aniversario: <b>${eventDays}d ${eventHours}h ${eventMinutes}m ${eventSeconds}s</b>`;
     container.classList.add('visible');
   }
   update();
   setInterval(update, 1000);
 }
 
-// --- Música de fondo ---
+
 function playBackgroundMusic() {
   const audio = document.getElementById('bg-music');
   if (!audio) return;
@@ -204,11 +201,11 @@ function playBackgroundMusic() {
   }
   audio.volume = 0.7;
   audio.loop = true;
-  // Intentar reproducir inmediatamente
+ 
   audio.play().then(() => {
     btn.textContent = '🔊 Música';
   }).catch(() => {
-    // Si falla el autoplay, esperar click en el botón
+    
     btn.textContent = '▶️ Música';
   });
   btn.onclick = () => {
